@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- adding required meta tags-->
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+        <!-- adding style sheets from bootstrap -->
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+        />
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+            crossorigin="anonymous"
+        />
+
+        <link lang='sass' rel="stylesheet" href="./static/styles/kristen.css">
+
+        <title>{% block title %}Kristen{% endblock %}</title>
+
+        <!-- code for the javascript map -->
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"
+            charset="utf-8"
+        ></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.2.7/raphael.min.js"
+            charset="utf-8"
+        ></script>
+		
+		<script src="//cdn.jsdelivr.net/npm/jquery-mapael@2.2.0/js/jquery.mapael.min.js" charset="utf-8"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-mapael/2.2.0/js/jquery.mapael.min.js" charset="utf-8"></script>
+		<script src="https://cdn.githubraw.com/neveldo/mapael-maps/86def5fb/world/world_countries.js" charset="utf-8"></script>
+        <title>{{ title }}</title>
+
+		<script src="../static/kristen_map.js" type="text/javascript"></script>
+    </head>
+
+    <body>
+        <!-- adding the MLH logo to the webpage-->
+        <header class="nav-bar">
+            <div class="nav-content">
+                <a href="/">
+                    <div class="nav-logo">
+                        <img src="./static/img/logo.svg" />
+                    </div>
+                </a>
+            </div>
+        </header>
+
+        {% include 'nav.html' %}
+
+        <!-- script to use your own javascript stored in static-->
+        <script
+            type="text/javascript"
+            src="{{ url_for('static', filename= 'index.js')}}"
+        ></script>
+
+        <!-- adding my picture to my page and text to the webpage-->
+        <div class="profile">
+            <div id="profile-picture" class="profile-picture" alt="picture of me">
+                <img src="./static/img/kristen/Kristen_Zhang.jpg"/>
+            </div>
+            <h1>{{ title }}</h1>
+            <p>Hello everyone! I live in a small city called London, located in Canada. <br>
+                Currently I am a 3rd year Software Engineering student at the University of Western Ontario.<br>
+                I love discovering new food places and meeting new friends! <br> My main languages are: Java, Python, C, and C#.<br>
+            </p>
+            {% include 'education_info.html' %}
+            {% include 'work_info.html' %}
+        </div>
+        
+        <section class="map">
+            <div class="profile">
+                <h3>Places I've been to:</h3>
+                <h4>Hover over plots to view locations.</h4>
+            </div>
+            
+        
+            <div class="mapcontainer">
+                <div class="map">
+                    <span>Javascript is required to view the map</span>
+                    <span>I've been to London, Ontario in Canada, GuangXi and HuNan in China</span>
+                </div>
+            </div>
+        </section>
+
+        <h3>
+            <a id="hobbies" id='kristen_hobbies' href="/kristen/hobbies">Click Here To See My Hobbies!</a>
+        </h3>
+    </body>
+</html>

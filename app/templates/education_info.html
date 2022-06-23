@@ -1,0 +1,11 @@
+{% block content %}
+    <h3><u>Education</u></h3>
+        <p>
+            {% for education in education_info %}
+            <h5> <b>{{education.name}} @ {{education.location}}: {{education.start_date}} - {{education.end_date}}</b> </h5>            
+            {% if education.desc != '' %}  
+            <p><i>{{education.desc}}</i></p>
+            {% endif %}     
+            {% endfor %}
+        </p> 
+{% endblock%}
