@@ -21,7 +21,7 @@ else
 fi
 
 # RUN FLASK APP
-python -m venv python3-virtualenv
+# python -m venv python3-virtualenv
 source python3-virtualenv/bin/activate
 
 pip install -r requirements.txt
