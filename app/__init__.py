@@ -2,8 +2,18 @@ import os
 from flask import Flask, render_template, make_response
 from dotenv import load_dotenv
 
+
 load_dotenv()
 app = Flask(__name__)
+
+# db
+mydb = MySQLDataBase(os.getenv("MYSQL_DATABASE"),
+       user=os.getenv("MYSQL_USER"),
+       password=os.getenv("MYSQL_PASSWORD"),
+       host=os.getenv("MYSQL_HOST"),
+       port=3306
+       )
+
 from .fellow_nav import fellow_nav
 
 app.register_blueprint(fellow_nav, url_prefix='/')
