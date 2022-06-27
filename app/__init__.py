@@ -81,6 +81,7 @@ def kristen_hobbies():
 # timeline post
 @app.route('/api/timeline_post', methods=['POST'])
 def post_time_line_post():
+       print(request.form)
        name = request.form['name']
        email = request.form['email']
        content = request.form['content']
@@ -96,3 +97,7 @@ def get_time_line_post():
                      TimelinePost.select().order_by(TimelinePost.created_at.desc())
               ]
        }
+
+@app.route('/timeline')
+def timeline():
+       return render_template('timeline.html', title="Timeline")
