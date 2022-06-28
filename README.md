@@ -52,17 +52,16 @@ You should install MySQL based on your system (https://dev.mysql.com/doc/refman/
 
 run
 ``` bash
-sudo mysql -u root
-CREATE USER 'myportfolio'@'localhost' IDENTIFIED BY 'mypassword';
-GRANT ALL PRIVILEGES ON *.* TO 'myportfolio'@'localhost' WITH GRANT OPTION;
-FLUSH PRIVILEGES;
-exit
+$ sudo mysql -u root
+$ CREATE USER 'myportfolio'@'localhost' IDENTIFIED BY 'mypassword';
+$ GRANT ALL PRIVILEGES ON *.* TO 'myportfolio'@'localhost' WITH GRANT OPTION;
+$ FLUSH PRIVILEGES;
+$ exit
 ```
 
-```
-mysql -u myportfolio -p
-
-CREATE DATABASE myportfoliodb;
+``` bash
+$ mysql -u myportfolio -p
+$ CREATE DATABASE myportfoliodb;
 ```
 
 # .env file
