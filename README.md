@@ -64,7 +64,7 @@ $ mysql -u myportfolio -p
 $ CREATE DATABASE myportfoliodb;
 ```
 
-# .env file
+### .env file
 
 ```
 URL=localhost:5000
