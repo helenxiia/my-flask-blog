@@ -1,0 +1,11 @@
+{% block content %}
+    <h2><u>Recent Posts</u></h2>
+        <p>
+            {% for post in posts %}
+            <div><b>Date: </b>{{post.created_at}}</div>
+            <div><b>Name: </b>{{post.name}}</div>
+            <div><b>Email: </b>{{post.email}}</div>
+            <div><b>Contents: </b>{{post.content}}</div><br>
+            {% endfor %}
+        </p> 
+{% endblock%}
