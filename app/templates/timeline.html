@@ -1,45 +1,60 @@
 <!DOCTYPE html>
 <html>
-<head> 
-    <!-- adding required meta tags-->
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>post</title>
-</head>
+    <head> 
+        <!-- adding required meta tags-->
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        {% include 'styles.html' %}
+        <title>post</title>
+    </head>
 
 
-<body>
-    <p>enter the info for timeline post</p>
-    <form id="form">
-    <input name="name" type="text">
-    <input name="email "type="text">
-    <input name="content "type="text">
-    <button type="submit">Submit</button>
-</form>
+    <body>
+            <!-- adding the MLH logo to the webpage-->
+            <header class="nav-bar">
+                <div class="nav-content">
+                    <a href="/">
+                        <div class="nav-logo">
+                            <img src="./static/img/logo.svg" />
+                        </div>
+                    </a>
+                </div>
+            </header>
+
+            <!-- using jinja nav template -->
+            {% include 'nav.html' %}
+
+        <p>enter the info for timeline post</p>
+        <form id="form">
+        <input name="name" type="text">
+        <input name="email"type="text">
+        <input name="content"type="text">
+        <button type="submit">Submit</button>
+    </form>
 
 
-</body>
-<script>
-    const form = document.getElementById('form')
+    </body>
+    <script>
+        const form = document.getElementById("form")
 
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
+        form.addEventListener("submit", function(e) {
+            e.preventDefault();
 
-        // creates a new formdata object that contains an array of arrays
-        // corresponding to the form elements
-        const payload = new FormData(form);
+            // creates a new formdata object that contains an array of arrays
+            // corresponding to the form elements
+            const payload = new FormData(form);
 
-        console.log([...payload])
+            console.log([...payload])
 
-        fetch('http://127.0.0.1:5000/api/timeline_post', {
-            method: "POST",
-            body: payload
+            fetch("/api/timeline_post", {
+                method: "POST",
+                body: payload
+            })
+
+            .then(res => res.json())
+            .then(data => console.log(data))
+            .catch(err => console.log(err))
         })
-
-        .then(res => res.json())
-        .then(data => console.log(data))
-        .catch(err => console.log(error))
-    })
-</script>
+    </script>
 
 </html>
