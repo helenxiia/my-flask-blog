@@ -51,15 +51,11 @@ Please make sure to update tests as appropriate.
 You should install MySQL based on your system (https://dev.mysql.com/doc/refman/8.0/en/installing.html)
 
 run
-```
+``` bash
 sudo mysql -u root
-
 CREATE USER 'myportfolio'@'localhost' IDENTIFIED BY 'mypassword';
-
 GRANT ALL PRIVILEGES ON *.* TO 'myportfolio'@'localhost' WITH GRANT OPTION;
-
 FLUSH PRIVILEGES;
-
 exit
 ```
 
