@@ -2,6 +2,7 @@ from email.policy import default
 import os
 from flask import Flask, render_template, make_response, request
 from dotenv import load_dotenv
+import re
 
 # db imports
 from peewee import *
@@ -13,14 +14,19 @@ from playhouse.shortcuts import model_to_dict
 load_dotenv()
 app = Flask(__name__)
 
-# db
 
-mydb = MySQLDatabase(os.getenv("MYSQL_DATABASE"),
-       user=os.getenv("MYSQL_USER"),
-       password=os.getenv("MYSQL_PASSWORD"),
-       host=os.getenv("MYSQL_HOST"),
-       port=3306
-       )
+# testing
+if os.getenv("TESTING") == "true":
+    print("Running in test mode")
+    mydb = SqliteDatabase("file:memory?mode=memory&cache=shared",uri=True)
+else:
+    # db
+    mydb = MySQLDatabase(os.getenv("MYSQL_DATABASE"),
+           user=os.getenv("MYSQL_USER"),
+           password=os.getenv("MYSQL_PASSWORD"),
+           host=os.getenv("MYSQL_HOST"),
+           port=3306
+          )
 
 print(mydb)
 
@@ -119,9 +125,23 @@ def helenhobbies():
 @app.route('/api/timeline_post', methods=['POST'])
 def post_time_line_post():
        print(request.form)
-       name = request.form['name']
-       email = request.form['email']
-       content = request.form['content']
+       try: 
+           name = request.form['name'] 
+       except: 
+           return "Invalid name", 400
+        
+       # email regex
+       email_re=re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-za-z0-9-]+(\.[A-Z|a-z]{2,})+')
+       if re.fullmatch(email_re, request.form['email']):
+               email = request.form['email'] 
+       else:
+               return "Invalid email", 400
+       
+       if (len(request.form['content']) is not 0):  
+           content = request.form['content'] 
+       else: 
+           return "Invalid content", 400
+       
        timeline_post = TimelinePost.create(name=name, email=email, content=content)
        return model_to_dict(timeline_post)
 
