@@ -10,27 +10,19 @@
 
 
     <body>
-            <!-- adding the MLH logo to the webpage-->
-            <header class="nav-bar">
-                <div class="nav-content">
-                    <a href="/">
-                        <div class="nav-logo">
-                            <img src="./static/img/logo.svg" />
-                        </div>
-                    </a>
-                </div>
-            </header>
 
-            <!-- using jinja nav template -->
-            {% include 'nav.html' %}
-
+        <!-- using jinja nav template -->
+        {% include 'nav.html' %}
+    <div class="container">
         <p>enter the info for timeline post</p>
-        <form id="form">
-        <input name="name" type="text">
-        <input name="email"type="text">
-        <input name="content"type="text">
+    <form id="form">
+        Name: <input name="name" type="text"> <br>
+        Email: <input name="email"type="text"> <br>
+        Content: <input name="content"type="text"> <br>
         <button type="submit">Submit</button>
     </form>
+    </div>
+    
 
     {% include 'postdisplay.html' %}
 
@@ -48,6 +40,9 @@
 
             console.log([...payload])
 
+            // clear value
+
+
             fetch("/api/timeline_post", {
                 method: "POST",
                 body: payload
@@ -56,6 +51,7 @@
             .then(res => res.json())
             .then(data => console.log(data))
             .catch(err => console.log(err))
+            location.reload()
         })
     </script>
 

@@ -2,6 +2,7 @@ from email.policy import default
 import os
 from flask import Flask, render_template, make_response, request
 from dotenv import load_dotenv
+import re
 
 # db imports
 from peewee import *
@@ -13,14 +14,19 @@ from playhouse.shortcuts import model_to_dict
 load_dotenv()
 app = Flask(__name__)
 
-# db
 
-mydb = MySQLDatabase(os.getenv("MYSQL_DATABASE"),
-       user=os.getenv("MYSQL_USER"),
-       password=os.getenv("MYSQL_PASSWORD"),
-       host=os.getenv("MYSQL_HOST"),
-       port=3306
-       )
+# testing
+if os.getenv("TESTING") == "true":
+    print("Running in test mode")
+    mydb = SqliteDatabase("file:memory?mode=memory&cache=shared",uri=True)
+else:
+    # db
+    mydb = MySQLDatabase(os.getenv("MYSQL_DATABASE"),
+           user=os.getenv("MYSQL_USER"),
+           password=os.getenv("MYSQL_PASSWORD"),
+           host=os.getenv("MYSQL_HOST"),
+           port=3306
+          )
 
 print(mydb)
 
@@ -40,51 +46,102 @@ from .fellow_nav import fellow_nav
 
 app.register_blueprint(fellow_nav, url_prefix='/')
 
+# nav
+nav = [{'name': 'Home', 'url': '/'},
+           {'name': 'Kristen', 'url': '/kristen'},
+           {'name': 'Helen', 'url': '/helen'},
+           {'name': 'Catherine', 'url': '/catherine'}]
+
 
 @app.route('/')
 def home():
-    """ Landing Page """
-    nav = [{'name': 'Home', 'url': '/'},
-           {'name': 'Kristen', 'url': '/kristen'},
-           {'name': 'Helen', 'url': '/helen'},
-           {'name': 'Catherine', 'url': '/catherine'}]
-    return render_template('home.html', nav=nav, title="MLH Fellow Orientation Hack", url=os.getenv("URL"))
+    work_info =  [{
+            'name': 'Business Anaylst',
+            'location': 'Scotiabank',
+            'start_date': 'May 2022',
+            'end_date': 'Present',
+            'desc': 'Works with key stakeholders to align technology solutions with business strategies'
+        },{
+            'name': 'Production Engineering Fellow',
+            'location': 'MLH',
+            'start_date': 'May 2022',
+            'end_date': 'Present',
+            'desc': 'Production Engineering Fellowship hosted by MLH and Meta'
+        },{
+            'name': 'Software Engineer',
+            'location': 'Scotiabank',
+            'start_date': 'Sept 2021',
+            'end_date': 'Dec 2021',
+            'desc': 'Created regression models using Python and SQL to help price International ETFs'
+        }]
 
-@app.route('/catherine/hobbies')
-def catherine_hobbies():
-    """ Catherine's Hobbies Page """
-    nav = [{'name': 'Home', 'url': '/'},
-           {'name': 'Kristen', 'url': '/kristen'},
-           {'name': 'Helen', 'url': '/helen'},
-           {'name': 'Catherine', 'url': '/catherine'}]
+    education_info = [{
+            'name': 'University of Waterloo',
+            'location': 'Waterloo, ON',
+            'start_date': 'Sept 2020',
+            'end_date': 'Present',
+            'desc' : 'Bachelor of Computer Science Co-op'
+        },{
+            'name': 'Iroquois Ridge High School',
+            'location': 'Oakville, ON',
+            'start_date': 'Sept 2016',
+            'end_date': 'June 2020',
+            'desc' : 'Debate Club Marketing Executive, Interact Club Marketing Executive'
+        }]
 
-    hobbies = [{
-           'name': 'Games',
-           'img': '../static/img/catherine/gaming.jpg',
-           'desc': 'I play a lot of games in my free time. Some of the games I have the most hours for or play the most are: Valorant, League of Legends, and Destiny 2'
-    },{
-           'name': 'Choir',
-           'img': '../static/img/catherine/choir.jpg',
-           'desc': "I've been actively involved in school choir throughout highschool and plan to continue that through college :)"
-    },{
-           'name': 'Hackathons',
-           'img': '../static/img/catherine/coding.jpg',
-           'desc': "I've won several hackathons in the past and actually found this program through hackathons. It's a fun past time and I get prizes when I win!"
+       
+    hobby_info = [{
+        'name' : 'Photography',
+        'img' : '../static/img/helenhob1.png',
+        'desc' : 'I like photographing my friends and people! I often like to adjust the picture through editing softwares. \
+         the image above is a screenshot from my photography Instagram account (@hxlens).'
+    },
+    {
+        'name' : 'Drawing',
+        'img' : '../static/img/helenhob2.png',
+        'desc' : 'I like drawing with different mediums. Like in forms of digitial art, paint, pencil and more.'
     }]
 
-    return render_template('./catherine/catherine_hobbies.html', nav=nav, hobbies=hobbies, title="Catherine's Hobbies", url=os.getenv("URL"))
+    return render_template('helen_page.html', nav=nav, title="Helen Xia", url=os.getenv("URL"),hobbies=hobby_info, work_info=work_info, education_info=education_info)
 
-@app.route('/kristen/hobbies')
-def kristen_hobbies():
-    return render_template('kristen_hobbies.html', title="My Hobbies", url=os.getenv("URL"))
+@app.route('/hobbies')
+def helenhobbies():
+    hobby_info = [{
+        'name' : 'Photography',
+        'img' : '../static/img/helenhob1.png',
+        'desc' : 'I like photographing my friends and people! I often like to adjust the picture through editing softwares. \
+         the image above is a screenshot from my photography Instagram account (@hxlens).'
+    },
+    {
+        'name' : 'Drawing',
+        'img' : '../static/img/helenhob2.png',
+        'desc' : 'I like drawing with different mediums. Like in forms of digitial art, paint, pencil and more.'
+    }]
+
+    return render_template('helen_hobbies.html', nav=nav, title="Helen Xia", url=os.getenv("URL"),hobbies=hobby_info)
+
 
 # timeline post
 @app.route('/api/timeline_post', methods=['POST'])
 def post_time_line_post():
        print(request.form)
-       name = request.form['name']
-       email = request.form['email']
-       content = request.form['content']
+       try: 
+           name = request.form['name'] 
+       except: 
+           return "Invalid name", 400
+        
+       # email regex
+       email_re=re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-za-z0-9-]+(\.[A-Z|a-z]{2,})+')
+       if re.fullmatch(email_re, request.form['email']):
+               email = request.form['email'] 
+       else:
+               return "Invalid email", 400
+       
+       if (len(request.form['content']) is not 0):  
+           content = request.form['content'] 
+       else: 
+           return "Invalid content", 400
+       
        timeline_post = TimelinePost.create(name=name, email=email, content=content)
        return model_to_dict(timeline_post)
 
