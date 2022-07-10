@@ -14,15 +14,12 @@ else
     exit
 fi
 
-# RUN FLASK APP
-# python -m venv python3-virtualenv
-source python3-virtualenv/bin/activate
+# Let's first spin containers down to prevent out of 
+# memory issues on our VPS instances when building in the next step
 
-pip install -r requirements.txt
+docker compose -f docker-compose.prod.yml down
 
-systemctl daemon-reload
-systemctl restart myportfolio
-systemctl status myportfolio
+docker compose -f docker-compose.prod.yml up -d --build
 
 echo "SERVER HAS RESTARTED"
 
