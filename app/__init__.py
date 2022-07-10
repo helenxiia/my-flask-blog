@@ -41,6 +41,7 @@ class TimelinePost(Model):
 
 mydb.connect()
 mydb.create_tables([TimelinePost])
+mydb.close()
 
 from .fellow_nav import fellow_nav
 
@@ -137,31 +138,35 @@ def post_time_line_post():
        else:
                return "Invalid email", 400
        
-       if (len(request.form['content']) is not 0):  
+       if (len(request.form['content']) != 0):  
            content = request.form['content'] 
        else: 
            return "Invalid content", 400
        
        timeline_post = TimelinePost.create(name=name, email=email, content=content)
+       mydb.close()
        return model_to_dict(timeline_post)
 
 @app.route('/api/timeline_post', methods=['GET'])
 def get_time_line_post():
-       return {
-              'timeline_posts': [
+    returnv = {'timeline_posts': [
                      model_to_dict(p)
                      for p in 
                      TimelinePost.select().order_by(TimelinePost.created_at.desc())
-              ]
-       }
+              ]}
+    mydb.close()
+    return returnv
+       
 
 @app.route('/api/timeline_post/<int:id>', methods=['DELETE'])
 def delete_time_line_post():
        id = request.form['id']
 
        TimelinePost.delete_by_id(id)
+       mydb.close()
 
 @app.route('/timeline')
 def timeline():
        posts = [model_to_dict(p) for p in TimelinePost.select().order_by(TimelinePost.created_at.desc())]
+       mydb.close()
        return render_template('timeline.html', title="Timeline", posts=posts)
