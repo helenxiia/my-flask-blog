@@ -63,7 +63,7 @@ $(function () {
 				latitude: 27.994402,
 				longitude: -81.760254,
 				tooltip: {
-					content: "Maimi, Florida",
+					content: "Miami, Florida",
 				},
 			},
 		},
