@@ -1,5 +1,4 @@
 version: "3"
-
 services:
   myportfolio:
     container_name: myportfolio
@@ -15,24 +14,25 @@ services:
     image: mariadb
     restart: always
     env_file:
-      -  .env
-    volumes:
+      - .env
+    volumes: 
       - mydatabase:/var/lib/mysql
-
+  
   nginx:
-  container_name: nginx
-  image: jonasal/nginx-certbot
-  restart: always
-  environment:
-    - CERTBOT_EMAIL=name@example.com
-  ports:
-    - 80:80
-    - 443:443
-  volumes:
-    - nginx_secrets:/etc/letsencrypt
-    - ./user_conf.d:/etc/nginx/user_conf.d
-  depends_on:
-    - myportfolio
+    container_name: nginx
+    image: jonasal/nginx-certbot
+    restart: always
+    environment:
+      - CERTBOT_EMAIL=helenyy.xia@gmail.com
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - nginx_secrets:/etc/letsencrypt
+      - ./user_conf.d:/etc/nginx/user_conf.d
+    depends_on:
+      - myportfolio
+    
 volumes:
   mydatabase:
   nginx_secrets:
