@@ -40,7 +40,7 @@ class TimelinePost(Model):
               database = mydb
 
 mydb.connect()
-mydb.create_tables([TimelinePost])
+mydb.create_tables([TimelinePost], safe=True)
 mydb.close()
 
 from .fellow_nav import fellow_nav
@@ -116,7 +116,7 @@ def helenhobbies():
     {
         'name' : 'Drawing',
         'img' : '../static/img/helenhob2.png',
-        'desc' : 'I like drawing with different mediums. Like in forms of digitial art, paint, pencil and more.'
+        'desc' : 'I like drawing with different mediums. Like in forms of digitial art, paint, pencil and more. (@hxcolor)'
     }]
 
     return render_template('helen_hobbies.html', nav=nav, title="Helen Xia", url=os.getenv("URL"),hobbies=hobby_info)
