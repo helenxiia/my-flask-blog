@@ -100,10 +100,10 @@ def home():
     {
         'name' : 'Drawing',
         'img' : '../static/img/helenhob2.png',
-        'desc' : 'I like drawing with different mediums. Like in forms of digitial art, paint, pencil and more.'
+        'desc' : 'I like drawing with different mediums. Like in forms of digitial art, paint, pencil and more. (@hxcolor)'
     }]
 
-    return render_template('helen_page.html', nav=nav, title="Yuyang Xia", url=os.getenv("URL"),hobbies=hobby_info, work_info=work_info, education_info=education_info)
+    return render_template('helen_page.html', nav=nav, title="Helen Xia", url=os.getenv("URL"),hobbies=hobby_info, work_info=work_info, education_info=education_info)
 
 @app.route('/hobbies')
 def helenhobbies():
