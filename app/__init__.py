@@ -41,7 +41,8 @@ class TimelinePost(Model):
 
 mydb.connect()
 mydb.create_tables([TimelinePost], safe=True)
-mydb.close()
+if os.getenv("TESTING") != "true":
+    mydb.close()
 
 from .fellow_nav import fellow_nav
 
@@ -144,7 +145,8 @@ def post_time_line_post():
            return "Invalid content", 400
        
        timeline_post = TimelinePost.create(name=name, email=email, content=content)
-       mydb.close()
+       if os.getenv("TESTING") != "true":
+           mydb.close()
        return model_to_dict(timeline_post)
 
 @app.route('/api/timeline_post', methods=['GET'])
@@ -154,7 +156,8 @@ def get_time_line_post():
                      for p in 
                      TimelinePost.select().order_by(TimelinePost.created_at.desc())
               ]}
-    mydb.close()
+    if os.getenv("TESTING") != "true":
+           mydb.close()
     return returnv
        
 
@@ -163,10 +166,12 @@ def delete_time_line_post():
        id = request.form['id']
 
        TimelinePost.delete_by_id(id)
-       mydb.close()
+       if os.getenv("TESTING") != "true":
+           mydb.close()
 
 @app.route('/timeline')
 def timeline():
        posts = [model_to_dict(p) for p in TimelinePost.select().order_by(TimelinePost.created_at.desc())]
-       mydb.close()
+       if os.getenv("TESTING") != "true":
+           mydb.close()
        return render_template('timeline.html', title="Timeline", posts=posts)
