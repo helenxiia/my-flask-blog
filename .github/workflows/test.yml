@@ -23,7 +23,7 @@ jobs:
           python-version: '3.9.10'
       
       - name: Setup Python Virtual Environment
-        run: python -m venv python3-virtrualenv
+        run: python -m venv python3-virtualenv
       
       - name: Install Dependencies
         run: pip install -r requirements.txt
