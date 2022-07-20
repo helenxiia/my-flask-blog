@@ -22,7 +22,7 @@ jobs:
           python-version: '3.9.10'
       
       - name: Setup Python Virtual Environment
-        run: python3 -m venv python3-virtrualenv
+        run: python -m venv python3-virtrualenv
       
       - name: Install Dependencies
         run: pip install -r requirements.txt
@@ -31,4 +31,4 @@ jobs:
         run: chmod +x run_test.sh
 
       - name: Run Tests
-        run: ../../run_test.sh
+        run: ./run_test.sh
