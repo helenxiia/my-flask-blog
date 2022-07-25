@@ -7,6 +7,34 @@ on:
   workflow_dispatch:
 
 jobs:
+  test:
+    env: 
+      TESTING: true
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9.10'
+      
+      - name: Setup Python Virtual Environment
+        run: python -m venv python3-virtualenv
+      
+      - name: Install Dependencies
+        run: python3-virtualenv/bin/pip install -r requirements.txt
+      
+      - name: Give Run Script Permissions
+        run: chmod +x run_test.sh
+
+      - name: Run Tests
+        run: ./run_test.sh
+
+      - name: Deployment Failed
+        if: failure()
+        run: curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚨 Testing Failed"
+        
   deploy:
     name: "Deploy to VPS"
     runs-on: ubuntu-latest
@@ -33,3 +61,4 @@ jobs:
       
       - name: Deploy on discord
         run: curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚀 Deployment Successful"
+      
