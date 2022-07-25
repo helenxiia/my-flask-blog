@@ -8,6 +8,7 @@ on:
 
 jobs:
   test:
+    runs-on: ubuntu-latest
     env: 
       TESTING: true
     steps:
@@ -34,7 +35,7 @@ jobs:
       - name: Deployment Failed
         if: failure()
         run: curl -s -X POST "${{ secrets.DISCORD_WEBHOOK }}" -d "content=🚨 Testing Failed"
-        
+
   deploy:
     name: "Deploy to VPS"
     runs-on: ubuntu-latest
