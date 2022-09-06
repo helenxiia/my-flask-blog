@@ -40,37 +40,5 @@ You'll now be able to access the website at `localhost:5000` or `127.0.0.1:5000`
 
 *Note: The portfolio site will only work on your local machine while you have it running inside of your terminal. We'll go through how to host it in the cloud in the next few weeks!* 
 
-## Contributing
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate.
-
-## How to setup the database
-
-You should install MySQL based on your system (https://dev.mysql.com/doc/refman/8.0/en/installing.html)
-
-Run
-``` bash
-$ sudo mysql -u root
-$ CREATE USER 'myportfolio'@'localhost' IDENTIFIED BY 'mypassword';
-$ GRANT ALL PRIVILEGES ON *.* TO 'myportfolio'@'localhost' WITH GRANT OPTION;
-$ FLUSH PRIVILEGES;
-$ exit
-```
-
-``` bash
-$ mysql -u myportfolio -p
-$ CREATE DATABASE myportfoliodb;
-```
-
-### .env file
-
-```
-URL=localhost:5000
-MYSQL_HOST=localhost
-MYSQL_USER=myportfolio
-MYSQL_PASSWORD=mypassword
-MYSQL_DATABASE=myportfoliodb
-```
 
