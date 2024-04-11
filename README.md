@@ -2,6 +2,8 @@
 
 A web application created by 22.POD.22 Production Engineering Fellows to introduce ourselves and showcase our education and work experience.
 
+![Screenshot of website](https://github.com/helenxiia/flask-blog/blob/main/website.png)
+
 ## Installation
 
 Make sure you have python3 and pip installed
